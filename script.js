@@ -4,7 +4,7 @@ function toggleFabMenu() {
   menu.classList.toggle("hidden");
 }
 
-// Open file and preview in new tab
+// Trigger PDF file open (without saving)
 function triggerFileOpen() {
   const input = document.createElement("input");
   input.type = "file";
@@ -19,7 +19,12 @@ function triggerFileOpen() {
   input.click();
 }
 
-// Switch between tabs (Recent / Starred / Device)
+// Handle FAB menu navigation buttons
+function navigateTo(page) {
+  alert(`Feature "${page}" will be added soon!`);
+}
+
+// Switch between tabs (Recent, Starred, Device)
 function switchTab(tab) {
   document.querySelectorAll(".tabs button").forEach(btn =>
     btn.classList.remove("active")
@@ -27,10 +32,10 @@ function switchTab(tab) {
   document.querySelector(`.tabs button[onclick="switchTab('${tab}')"]`)
     .classList.add("active");
 
-  loadMyFiles();
+  loadMyFiles(); // Optional: Add tab-based filter later
 }
 
-// Load selected PDF files into localStorage
+// Load PDF files from user and save in localStorage
 function loadFiles(event) {
   const files = event.target.files;
   Array.from(files).forEach(file => {
@@ -43,7 +48,7 @@ function loadFiles(event) {
   });
 }
 
-// Display PDF files stored in localStorage
+// Show saved PDF files in file list
 function loadMyFiles() {
   const list = document.getElementById("fileList");
   list.innerHTML = "";
@@ -80,7 +85,7 @@ function loadMyFiles() {
   });
 }
 
-// Helper to convert DataURL back to Blob for opening
+// Convert DataURL to Blob for file opening
 function dataURLToBlob(dataURL) {
   const parts = dataURL.split(";base64,");
   const byteString = atob(parts[1]);
@@ -93,5 +98,5 @@ function dataURLToBlob(dataURL) {
   return new Blob([ab], { type: mimeString });
 }
 
-// Load saved files when page is opened
+// Load saved files on page load
 window.onload = loadMyFiles;
